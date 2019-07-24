@@ -1,3 +1,14 @@
+<?php
+$variable_Consulta = "0";
+if (isset($VARIABLE)) {
+  $variable_Consulta = $VARIABLE;
+}
+
+$query_DatosRank = sprintf("SELECT * FROM users WHERE id_user=%s", GetSQLValueString($_SESSION['vpt_UserId'], "int"));
+$DatosRank = mysqli_query($con, $query_DatosRank) or die(mysqli_error($con));
+$row_DatosRank = mysqli_fetch_assoc($DatosRank);
+$totalRows_DatosRank = mysqli_num_rows($DatosRank);
+?>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
@@ -35,7 +46,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-folder"></i>
           <span>Personal Trainers</span>
         </a>
@@ -58,10 +69,16 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
+            <a class="collapse-item" href="sent.php">Sent</a>
+            <?php if ($row_DatosRank['rank'] != 5) { ?>
+            <a class="collapse-item" href="pt_received.php">Received</a>
+            <?php } else { ?>
+            <a class="collapse-item" href="user_received.php">Received</a>
+            <?php } ?>
+            <!--<a class="collapse-item" href="utilities-color.html">Colors</a>
             <a class="collapse-item" href="utilities-border.html">Borders</a>
             <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <a class="collapse-item" href="utilities-other.html">Other</a>-->
           </div>
         </div>
       </li>
@@ -70,15 +87,16 @@
       <hr class="sidebar-divider">
 
       <!-- Heading -->
-      <div class="sidebar-heading">
+      <!--<div class="sidebar-heading">
         Addons
-      </div>
+      </div>-->
 
       <!-- Nav Item - Pages Collapse Menu -->
+      <?php if ($row_DatosRank['rank'] != 5) { ?>
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Pages</span>
+          <span>Routines</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -93,9 +111,9 @@
           </div>
         </div>
       </li>
-
+      <?php } ?>
       <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+      <!--<hr class="sidebar-divider d-none d-md-block">-->
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">

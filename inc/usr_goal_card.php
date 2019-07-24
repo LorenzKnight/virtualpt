@@ -4,15 +4,14 @@
     <br>
     <?php if ($row_DatosGoal > 0) { ?>
 
-    <br><?php echo $row_DatosGoal['usr_weight_goal']; ?> kg
-    <br><?php echo $row_DatosGoal['usr_height_goal']; ?> cm
+    <br>Weight: <?php echo $row_DatosGoal['usr_weight_goal']; ?> kg
     <br>
-    <br><?php echo $row_DatosGoal['usr_biceps_goal']; ?> cm
-    <br><?php echo $row_DatosGoal['usr_chest_goal']; ?> cm
-    <br><?php echo $row_DatosGoal['usr_waist_goal']; ?> cm
-    <br><?php echo $row_DatosGoal['usr_hips_goal']; ?> cm
-    <br><?php echo $row_DatosGoal['usr_thigh_goal']; ?> cm
-    <br><?php echo $row_DatosGoal['usr_fat_goal']; ?> %
+    <br>Biceps: <?php echo $row_DatosGoal['usr_biceps_goal']; ?> cm
+    <br>Chest: <?php echo $row_DatosGoal['usr_chest_goal']; ?> cm
+    <br>Waist: <?php echo $row_DatosGoal['usr_waist_goal']; ?> cm
+    <br>Hips: <?php echo $row_DatosGoal['usr_hips_goal']; ?> cm
+    <br>Thigh: <?php echo $row_DatosGoal['usr_thigh_goal']; ?> cm
+    <br>Fat: <?php echo $row_DatosGoal['usr_fat_goal']; ?> %
     
     <?php
     }

@@ -5,13 +5,13 @@ if (isset($VARIABLE)) {
   $variable_Consulta = $VARIABLE;
 }
 
-$query_DatosConsulta = sprintf("SELECT * FROM users WHERE rank = 2 AND pt_type = 3 ORDER BY id_user ASC");
+$query_DatosConsulta = sprintf("SELECT * FROM request WHERE id_pt=%s ORDER BY id_request DESC", 
+                              GetSQLValueString($_SESSION['vpt_UserId'], "int"));
 $DatosConsulta = mysqli_query($con, $query_DatosConsulta) or die(mysqli_error($con));
 $row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta);
 $totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
-
-//FINAL DE LA PARTE SUPERIOR
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +23,7 @@ $totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LK Admin 2</title>
+  <title>Virtual PT</title>
 
   <?php include("inc/header.php"); ?>
 
@@ -51,28 +51,31 @@ $totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
         
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Personlig trainers <sup>(Dietitian)</sup></h1>
-          </div>
-
+            <h1 class="h3 mb-0 text-gray-800">Your Programs.</h1>
+        </div>
+          <?php
+            $yearold = date("Y") - $row_DatosConsulta['year'];
+          ?>
           <!-- Content Row -->
           <div class="row">
-
           <?php if ($row_DatosConsulta > 0) { 
            do { ?>
-
-          <?php include("inc/pt_card.php"); ?>
-
-            <?php } while ($row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta));
+           
+            <div class="msn_from_user">
+                  <p>Request from <?php echo ObtenerNombreUsuario($row_DatosConsulta['id_user']); ?><br>
+                <?php echo $row_DatosConsulta['day']; ?>-<?php echo $row_DatosConsulta['month']; ?>-<?php echo $row_DatosConsulta['year']; ?><br><br>
+                <a href="inicio.php">Open</a></p>
+            </div> 
+          
+          <?php } while ($row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta));
             }
             else
             { ?>
             
-            No hay resultado.
-                
+            <p>No results.</p>
+            <br><br>  
             <?php }  ?>
-
-          </div>
-
+          </div>  
         <!-- /.container-fluid -->
 
       </div>

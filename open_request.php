@@ -5,25 +5,13 @@ if (isset($VARIABLE)) {
   $variable_Consulta = $VARIABLE;
 }
 
-$query_DatosConsulta = sprintf("SELECT * FROM users WHERE id_user=%s", GetSQLValueString($_SESSION['vpt_UserId'], "int"));
-$DatosConsulta = mysqli_query($con, $query_DatosConsulta) or die(mysqli_error($con));
-$row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta);
-$totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
+$query_DatosOpenRequest = sprintf("SELECT * FROM request WHERE id_request=%s", GetSQLValueString($_GET["id"], "int"));
+$DatosOpenRequest = mysqli_query($con, $query_DatosOpenRequest) or die(mysqli_error($con));
+$row_DatosOpenRequest = mysqli_fetch_assoc($DatosOpenRequest);
+$totalRows_DatosOpenRequest = mysqli_num_rows($DatosOpenRequest);
 ?>
-<?php
-$query_DatosCurrent = sprintf("SELECT * FROM usr_current_status WHERE id_user=%s", GetSQLValueString($_SESSION['vpt_UserId'], "int"));
-$DatosCurrent = mysqli_query($con, $query_DatosCurrent) or die(mysqli_error($con));
-$row_DatosCurrent = mysqli_fetch_assoc($DatosCurrent);
-$totalRows_DatosCurrent = mysqli_num_rows($DatosCurrent);
-?>
-<?php
-$query_DatosGoal = sprintf("SELECT * FROM usr_goals WHERE id_user=%s ORDER BY id_goals DESC", GetSQLValueString($_SESSION['vpt_UserId'], "int"));
-$DatosGoal = mysqli_query($con, $query_DatosGoal) or die(mysqli_error($con));
-$row_DatosGoal = mysqli_fetch_assoc($DatosGoal);
-$totalRows_DatosGoal = mysqli_num_rows($DatosGoal);
-?>
-<?php
 
+<?php
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -107,8 +95,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequest")) {
             <h1 class="h3 mb-0 text-gray-800">Request a new program </h1>
         </div>
           <?php
-            $yearold = date("Y") - $row_DatosConsulta['year'];
+            $yearold = date("Y") - ObtenerAnoUsuario($row_DatosOpenRequest['id_user']);
           ?>
+          <?php //echo $row_DatosUserRef['name']; ?>
           <!-- Content Row -->
           <div class="row">
             <div class="prog_forms_2" style="height: 550px;">
@@ -116,9 +105,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequest")) {
                 <div class="profil_cilcle">
                 </div>
                 <div class="priv_info">
-                  <?php echo $row_DatosConsulta['name']; ?> <?php echo $row_DatosConsulta['surname']; ?>
+                  <?php echo ObtenerNombreUsuario($row_DatosOpenRequest['id_user']); ?> <?php echo ObtenerApellidoUsuario($row_DatosOpenRequest['id_user']); ?>
                   <br><?php echo $yearold; ?> Year old
-                  <br>Height: <?php echo $row_DatosCurrent['usr_height']; ?> cm
+                  <br>Height: <?php echo $row_DatosOpenRequest['usr_height']; ?> cm
                 </div>
                    
               </div>
@@ -131,45 +120,45 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequest")) {
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Weight:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_weight']; ?> kg</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_weight']; ?> kg</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Weight:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_weight_goal']; ?> kg</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_weight_goal']; ?> kg</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Biceps:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_biceps']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_biceps']; ?> cm</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Biceps:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_biceps_goal']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_biceps_goal']; ?> cm</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Chest:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_chest']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_chest']; ?> cm</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Chest:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_chest_goal']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_chest_goal']; ?> cm</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Waist:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_waist']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_waist']; ?> cm</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Waist:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_waist_goal']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_waist_goal']; ?> cm</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Hips:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_hips']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_hips']; ?> cm</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Hips:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_hips_goal']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_hips_goal']; ?> cm</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Thigh:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_thigh']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_thigh']; ?> cm</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Thigh:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_thigh_goal']; ?> cm</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_thigh_goal']; ?> cm</td>
                     </tr>
                     <tr>
                       <td width="25%" valign="middle" align="right">Fet:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosCurrent['usr_fat']; ?> %</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_fat']; ?> %</td>
                       <td style="border-left: 1px solid #999;" width="25%" valign="middle" align="right">Fet:&nbsp;</td>
-                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosGoal['usr_fat_goal']; ?> %</td>
+                      <td width="25%" valign="middle" align="left">&nbsp;<?php echo $row_DatosOpenRequest['usr_fat_goal']; ?> %</td>
                     </tr>
                   </tbody>
                 </table>
@@ -180,8 +169,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequest")) {
                       <tr>
                         <td width="50%" valign="middle" align="right">Personal Trainig:&nbsp;</td>
                         <td width="50%" valign="middle" align="left">
-                        <?php if ($totalRows_ConsultaFuncion > 0) { ?>
-                        &nbsp;<?php echo ObtenerNombreUsuario($row_DatosGoal['id_pt']); ?> <?php echo ObtenerApellidoUsuario($row_DatosGoal['id_pt']); ?>
+                        <?php if ($totalRows_DatosOpenRequest > 0) { ?>
+                        &nbsp;<?php echo ObtenerNombreUsuario($row_DatosOpenRequest['id_pt']); ?> <?php echo ObtenerApellidoUsuario($row_DatosOpenRequest['id_pt']); ?>
                         <?php }
                         else
                         { ?>
@@ -194,7 +183,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequest")) {
               </div>
                   <form class="user" action="send_request.php" method="post" name="formrequest" id="formrequest">
                 <div style="width: 93%; margin: 0 auto;">
-                  <input type="submit" class="btn btn-primary btn-user btn-block" value="NEXT" />
+                  <input type="submit" class="btn btn-primary btn-user btn-block" style="text-transform: uppercase;" value="Create a program for <?php echo ObtenerNombreUsuario($row_DatosOpenRequest['id_user']); ?>" />
                 </div>
                   <input type="hidden" name="usr_height" id="usr_height" value="<?php echo $row_DatosCurrent['usr_height']; ?>"/>
                   <input type="hidden" name="usr_weight" id="usr_weight" value="<?php echo $row_DatosCurrent['usr_weight']; ?>"/>

@@ -82,18 +82,39 @@ function ObtenerNombreUsuario($nombre)
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-function ObtenerApellidoUsuario($nombre)
+function ObtenerApellidoUsuario($apellido)
 {
 	global $con;
 	
 	$query_ConsultaFuncion = sprintf("SELECT surname FROM users WHERE id_user = %s ",
-		 GetSQLValueString($nombre, "int"));
+		 GetSQLValueString($apellido, "int"));
 	//echo $query_ConsultaFuncion;
 	$ConsultaFuncion = mysqli_query($con,  $query_ConsultaFuncion) or die(mysqli_error($con));
 	$row_ConsultaFuncion = mysqli_fetch_assoc($ConsultaFuncion);
 	$totalRows_ConsultaFuncion = mysqli_num_rows($ConsultaFuncion);
 	
 	return $row_ConsultaFuncion["surname"];	
+	
+	mysqli_free_result($ConsultaFuncion);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+function ObtenerAnoUsuario($year)
+{
+	global $con;
+	
+	$query_ConsultaFuncion = sprintf("SELECT year FROM users WHERE id_user = %s ",
+		 GetSQLValueString($year, "int"));
+	//echo $query_ConsultaFuncion;
+	$ConsultaFuncion = mysqli_query($con,  $query_ConsultaFuncion) or die(mysqli_error($con));
+	$row_ConsultaFuncion = mysqli_fetch_assoc($ConsultaFuncion);
+	$totalRows_ConsultaFuncion = mysqli_num_rows($ConsultaFuncion);
+	
+	return $row_ConsultaFuncion["year"];	
 	
 	mysqli_free_result($ConsultaFuncion);
 }
@@ -125,4 +146,5 @@ function ObtenerEntrenadorPersonal($idpt)
 		 
 	mysqli_free_result($ConsultaFuncion);
 }
+
 ?>
